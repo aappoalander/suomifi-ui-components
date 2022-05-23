@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { forwardRef, ReactNode } from 'react';
 import classnames from 'classnames';
 import { default as styled } from 'styled-components';
 import { HtmlSpan, HtmlSpanProps } from '../../../reset';
@@ -33,20 +33,25 @@ const StyledHintText = styled(
 )`
   ${({ theme }) => baseStyles(theme)}
 `;
-export class HintText extends Component<HintTextProps> {
-  render() {
-    const { children, ...passProps } = this.props;
+
+export const HintText = forwardRef(
+  (props: HintTextProps, ref: React.RefObject<HTMLSpanElement>) => {
+    const { children, ...passProps } = props;
     if (!children) {
       return null;
     }
     return (
       <SuomifiThemeConsumer>
         {({ suomifiTheme }) => (
-          <StyledHintText theme={suomifiTheme} {...passProps}>
+          <StyledHintText
+            forwardedRef={ref}
+            theme={suomifiTheme}
+            {...passProps}
+          >
             {children}
           </StyledHintText>
         )}
       </SuomifiThemeConsumer>
     );
-  }
-}
+  },
+);
