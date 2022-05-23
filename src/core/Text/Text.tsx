@@ -31,10 +31,11 @@ export interface TextProps extends InternalTextProps {
 
 const StyledText = styled(
   ({
-    theme,
-    className,
-    variant,
+    variant = 'body',
     smallScreen,
+    className,
+    theme,
+    color,
     ...passProps
   }: InternalTextProps & InnerRef & SuomifiThemeProp) => (
     <HtmlSpan
@@ -58,7 +59,7 @@ const StyledText = styled(
  */
 export const Text = forwardRef<HTMLSpanElement, TextProps>(
   (props: TextProps, ref: React.RefObject<HTMLSpanElement>) => {
-    const { id: propId, ...passProps } = props;
+    const { ...passProps } = props;
     return (
       <SuomifiThemeConsumer>
         {({ suomifiTheme }) => (
