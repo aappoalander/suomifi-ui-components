@@ -29,52 +29,35 @@ export interface TextProps extends InternalTextProps {
   ref?: React.RefObject<HTMLSpanElement>;
 }
 
-class BaseText extends Component<TextProps & InnerRef> {
-  render() {
-    const {
-      id,
-      className,
-      children,
-      forwardedRef,
-      variant = 'body',
-      smallScreen,
-      color,
-
-      ...passProps
-    } = this.props;
-
-    return (
-      <HtmlSpan
-        {...passProps}
-        className={classnames(
-          baseClassName,
-          className,
-          [`${baseClassName}--${variant}`],
-          {
-            [smallScreenClassName]: smallScreen,
-          },
-        )}
-      />
-    );
-  }
-}
-
 const StyledText = styled(
   ({
     theme,
+    className,
+    variant,
+    smallScreen,
     ...passProps
   }: InternalTextProps & InnerRef & SuomifiThemeProp) => (
-    <BaseText {...passProps} />
+    <HtmlSpan
+      {...passProps}
+      className={classnames(
+        baseClassName,
+        className,
+        [`${baseClassName}--${variant}`],
+        {
+          [smallScreenClassName]: smallScreen,
+        },
+      )}
+    />
   ),
 )`
-  ${({ theme }) => baseStyles(theme)}
+  ${(props) => baseStyles(props)}
 `;
 
 /**
  * Used displaying text with correct fonts
  */
 export const Text = forwardRef<HTMLSpanElement, TextProps>(
-  (props: TextProps, ref: React.Ref<HTMLSpanElement>) => {
+  (props: TextProps, ref: React.RefObject<HTMLSpanElement>) => {
     const { id: propId, ...passProps } = props;
     return (
       <SuomifiThemeConsumer>
